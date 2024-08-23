@@ -6,7 +6,7 @@ import { MenuModule } from 'primeng/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { SidebarModule } from 'primeng/sidebar';
 import { InputTextModule } from 'primeng/inputtext';
-import { SharedModule } from 'primeng/api';
+import { ConfirmationService, SharedModule } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { KeyFilterModule } from 'primeng/keyfilter';
@@ -18,6 +18,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [],
   imports: [
@@ -39,7 +40,8 @@ import { TableModule } from 'primeng/table';
     MessageModule,
     TooltipModule,
     TableModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    ConfirmDialogModule,
   ],
   exports: [
     ButtonModule,
@@ -59,7 +61,11 @@ import { TableModule } from 'primeng/table';
     MessageModule,
     TooltipModule,
     TableModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class PrimeNgListModule { }

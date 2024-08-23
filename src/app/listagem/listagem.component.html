@@ -4,6 +4,7 @@ excluir o usuário deverá ser questionado se realmente deseja excluir o item em
 removido e exibida uma notificação de sucesso ou erro.
 Ao clicar em editar, o usuário deverá ser redirecionado para o formulário, carregado com os dados do item em questão. O
 botão de adicionar apenas redirecionará para a página do formulário.
+<h2 class="beauty-font-regular">Listagem dos item</h2>
 
 <p-table [value]="db_itens">
   <ng-template pTemplate="header">
@@ -37,9 +38,9 @@ botão de adicionar apenas redirecionará para a página do formulário.
         <i class="pi pi-times" *ngIf="!item.isPerecivel "></i>
       </td>
       <td class="text-center">{{item.dt_validade | date: 'dd/MM/yy'}}</td>
-      <td class="text-center">
-        <p-button></p-button>
-        <p-button></p-button>
+      <td class="text-center ">
+        <button pButton icon="pi pi-pencil" class="ui-button-info" (click)="edit(item)"></button>
+        <button pButton icon="pi pi-trash" class="ui-button-danger ml-2" (click)="delete(item)"></button>
       </td>
     </tr>
   </ng-template>

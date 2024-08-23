@@ -1,8 +1,4 @@
 <h2 class="beauty-font-regular">Cadastro de item</h2>
-<p-messages
-     class="w-full"
-     [(value)]="msgs"
-></p-messages>
 
 <div class="flex flex-wrap ">
 
@@ -183,26 +179,28 @@
       </div>
     </div> -->
 
-  <div class="flex flex-row w-12 align-content-center flex-wrap justify-content-end mt-2">
+  <div class="flex flex-row w-12 align-content-center flex-wrap justify-content-end lg:justify-content-between mt-2 gap-2">
     <!--
   O formulário deverá possuir dois botões, um para salvar e outro para cancelar. Ao selecionar o botão de salvar, caso
   esteja editando um item, deve salvar essas alterações, do contrário um novo será adicionado. O botão de cancelar
   direciona o usuário para a tela de listagem.
    -->
 
-    <p-button
+    <button
+         pButton
          label="Cancelar"
-         severity="secondary"
-         class="w-full lg:w-6 p-1"
+         type="button"
          styleClass="w-full"
          routerLink="/listagem"
-    ></p-button>
-    <p-button
+         class="w-full lg:w-5 custom-outlined"
+    ></button>
+    <button
+         pButton
          label="Salvar"
-         type="submit"
+         type="button"
          (click)="enviar()"
-         class="w-full lg:w-6 p-1"
+         class="w-full lg:w-5"
          styleClass="w-full"
-    ></p-button>
+    ></button>
   </div>
 </div>

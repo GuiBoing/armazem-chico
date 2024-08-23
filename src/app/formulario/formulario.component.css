@@ -18,3 +18,8 @@
     }
   }
 }
+
+.custom-outlined{
+  background-color: var(--body-bg);
+  border: var(--primary-color) 1px solid;
+}
