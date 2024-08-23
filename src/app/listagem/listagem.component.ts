@@ -8,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class ListagemComponent implements OnInit {
 
   constructor() { }
+  db_itens = [];
 
   ngOnInit(): void {
+    this.db_itens = JSON.parse(localStorage.getItem('db_itens'))
   }
 
 }

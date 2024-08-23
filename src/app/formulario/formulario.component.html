@@ -17,7 +17,7 @@
            pInputText
            maxlength="50"
            id="nome"
-           [formControl]="formGroup.get('nomeInput')"
+           [formControl]="formGroup.get('nome')"
            pKeyFilter="alpha"
       />
     </div>
@@ -31,7 +31,7 @@
       <input
            pInputText
            id="marca"
-           [formControl]="formGroup.get('marcaInput')"
+           [formControl]="formGroup.get('marca')"
       />
     </div>
 
@@ -46,7 +46,7 @@
            id="select"
            optionLabel="label"
            optionValue="value"
-           [formControl]="formGroup.get('escalaSelect')"
+           [formControl]="formGroup.get('escala')"
            styleClass="flex ui-fluid"
       ></p-selectButton>
     </div>
@@ -65,7 +65,7 @@
              [minFractionDigits]="escalaSelect.value==='Un'?0:3"
              class="w-12 reverte-span"
              [showButtons]="true"
-             [formControl]="formGroup.get('quantidadeInput')"
+             [formControl]="formGroup.get('quantidade')"
              styleClass="flex"
         ></p-inputNumber>
 
@@ -82,15 +82,16 @@
       <!-- @@TODO utilizando máscara (preenchimento da direita para esquerda). -->
       <label for="valorInput">Valor *</label>
       <p-inputNumber
-           mode="decimal"
            [showButtons]="false"
            inputId="valorInput"
            mode="currency"
            [min]="0"
+           locale="pt-Br"
            currency="BRL"
-           [formControl]="formGroup.get('valorInput')"
+           [formControl]="formGroup.get('valor')"
            styleClass="flex ui-fluid"
       ></p-inputNumber>
+
     </div>
 
     <div
@@ -99,19 +100,16 @@
          tooltipPosition="top"
     >
 
-      <!-- Data de fabricação Data Sim Data no formato pt-Br e não pode ser superior a data de validade (caso seja um produto
-  perecível) -->
 
       <label for="fabricacaoCalendario">Data de fabricação *</label>
       <p-calendar
            id="fabricacaoCalendario"
-           [formControl]="formGroup.get('fabricacaoCalendario')"
+           [formControl]="formGroup.get('dt_fabricacao')"
            [touchUI]="isMobile"
            [style]="{'width':'100%'}"
            [inputStyle]="{'width':'100%'}"
            dateFormat="dd/mm/yy"
-           [maxDate]="formGroup.get('validadeCalendario').value"
-           [maxDate]="today"
+           [maxDate]="formGroup.get('dt_validade').value"
       ></p-calendar>
 
     </div>
@@ -130,23 +128,21 @@
            onIcon="pi pi-check"
            [style]="{'width':'100%'}"
            offIcon="pi pi-times"
-           [formControl]="formGroup.get('perecivelCheck')"
+           [formControl]="formGroup.get('isPerecivel')"
       ></p-toggleButton>
     </div>
 
     <div
          class="flex w-12 md:w-6 lg:w-3 p-1  flex-column"
-         *ngIf="formGroup.controls['perecivelCheck'].value"
+         *ngIf="formGroup.controls['isPerecivel'].value"
          pTooltip="Campo opcional, defina a data de validade"
          tooltipPosition="top"
     >
-      <!-- Data de validade Data Só é obrigatório caso o produto seja perecível Data no formato pt-Br. Caso a data de validade seja
-          inferior a data atual deve informar que o produto encontra-se vencido. -->
 
       <label for="validadeCalendario">Data de vencimento</label>
       <p-calendar
            id="validadeCalendario"
-           [formControl]="formGroup.get('validadeCalendario')"
+           [formControl]="formGroup.get('dt_validade')"
            [style]="{'width':'100%'}"
            [inputStyle]="{'width':'100%'}"
            [touchUI]="isMobile"

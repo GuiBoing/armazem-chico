@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-formulario',
@@ -14,14 +15,14 @@ export class FormularioComponent implements OnInit {
   msgs = [];
   isValidadeVencida: boolean = false;
   formGroup = new FormGroup({
-    nomeInput: new FormControl('', [Validators.required, Validators.max(50)]),
-    marcaInput: new FormControl(''),
-    escalaSelect: new FormControl({ label: 'Litro', value: 'Lt' }, Validators.required),
-    quantidadeInput: new FormControl(0, Validators.required),
-    valorInput: new FormControl(0, Validators.required),
-    perecivelCheck: new FormControl(false),
-    fabricacaoCalendario: new FormControl(new Date(), Validators.required),
-    validadeCalendario: new FormControl(null),
+    nome: new FormControl('', [Validators.required, Validators.max(50)]),
+    marca: new FormControl(''),
+    escala: new FormControl({ label: 'Litro', value: 'Lt' }, Validators.required),
+    quantidade: new FormControl(0, Validators.required),
+    valor: new FormControl(0, Validators.required),
+    dt_fabricacao: new FormControl(new Date(), Validators.required),
+    isPerecivel: new FormControl(false),
+    dt_validade: new FormControl(null),
   });
 
 
@@ -32,20 +33,20 @@ export class FormularioComponent implements OnInit {
       { label: 'Unidade', value: 'Un' }
     ];
 
-    this.formGroup.controls['perecivelCheck'].valueChanges.subscribe(v => {
+    this.formGroup.controls['isPerecivel'].valueChanges.subscribe(v => {
       if (v) {
-        this.formGroup.get('validadeCalendario').setValidators(Validators.required);
+        this.formGroup.get('dt_validade').setValidators(Validators.required);
       } else {
-        this.formGroup.get('validadeCalendario').clearValidators();
-        this.formGroup.get('validadeCalendario').setValue(null);
+        this.formGroup.get('dt_validade').clearValidators();
+        this.formGroup.get('dt_validade').setValue(null);
       }
-      this.formGroup.get('validadeCalendario').updateValueAndValidity();
+      this.formGroup.get('dt_validade').updateValueAndValidity();
     });
 
-    this.formGroup.controls['validadeCalendario'].valueChanges.subscribe(v => {
+    this.formGroup.controls['dt_validade'].valueChanges.subscribe(v => {
       if (v != null && v < new Date()) {
         this.isValidadeVencida = true;
-        this.msgs.push({ severity: 'error', summary: 'Produto vencido', detail: 'produto com validadde já ultrapassada' });
+        this.msgs.push({ severity: 'error', summary: 'Produto vencido', detail: 'produto com validade já ultrapassada' });
       } else {
         this.isValidadeVencida = false;
       }
@@ -54,7 +55,7 @@ export class FormularioComponent implements OnInit {
 
 
   get escalaSelect() {
-    return this.formGroup.controls['escalaSelect'].value;
+    return this.formGroup.controls['escala'].value;
   }
 
   get isMobile() {
@@ -65,7 +66,14 @@ export class FormularioComponent implements OnInit {
     this.formGroup.markAllAsTouched();
     this.formGroup.markAsDirty();
     if (this.formGroup.valid && !this.isValidadeVencida) {
-      console.log(this.formGroup.getRawValue());
+      this.msgs.push({ severity: 'sucess', summary: 'Sucesso!', detail: 'item registrado com sucesso' });
+      let data = this.formGroup.getRawValue();
+      let arrayDB = JSON.parse(localStorage.getItem('db_itens')) || [];
+      data.codigo = arrayDB.length + 1;
+      arrayDB.push(data);
+      let stringToSave = JSON.stringify(arrayDB);
+      localStorage.setItem('db_itens', stringToSave);
+      this.formGroup.reset();
     } else {
       this.msgs.push({ severity: 'warn', summary: 'Formulario com erro', detail: 'verifique os campos com erro' });
 

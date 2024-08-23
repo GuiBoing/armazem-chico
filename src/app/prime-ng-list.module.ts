@@ -17,6 +17,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from 'primeng/table';
 @NgModule({
   declarations: [],
   imports: [
@@ -37,9 +38,7 @@ import { TooltipModule } from 'primeng/tooltip';
     MessagesModule,
     MessageModule,
     TooltipModule,
-
-
-
+    TableModule,
     ToggleButtonModule
   ],
   exports: [
@@ -59,7 +58,7 @@ import { TooltipModule } from 'primeng/tooltip';
     MessagesModule,
     MessageModule,
     TooltipModule,
-
+    TableModule,
     ToggleButtonModule
   ]
 })
