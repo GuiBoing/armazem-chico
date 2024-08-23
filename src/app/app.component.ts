@@ -8,20 +8,18 @@ import { MenuItem } from 'primeng/api';
 })
 
 export class AppComponent {
-
-  items: MenuItem[] = [{
-    label: 'File',
-    items: [
-      { label: 'New', icon: 'pi pi-fw pi-plus' },
-      { label: 'Download', icon: 'pi pi-fw pi-download' }
-    ]
-  },
-  {
-    label: 'Edit',
-    items: [
-      { label: 'Add User', icon: 'pi pi-fw pi-user-plus' },
-      { label: 'Remove User', icon: 'pi pi-fw pi-user-minus' }
-    ]
-  }];
   title = 'armazem-chico';
+
+  isNavOpen: boolean = false;
+
+  toggleNav() {
+    if (!this.isNavOpen) {
+      document.getElementById("inside").style.marginLeft = "15rem";
+      document.getElementById("sidenav").style.width = "15rem";
+    } else {
+      document.getElementById("sidenav").style.width = "0";
+      document.getElementById("inside").style.marginLeft = "0";
+    }
+    this.isNavOpen = !this.isNavOpen;
+  }
 }

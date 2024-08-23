@@ -1,1 +1,212 @@
-<p>formulario works!</p>
+<h2 class="beauty-font-regular">Cadastro de item</h2>
+<p-messages
+     class="w-full"
+     [(value)]="msgs"
+></p-messages>
+
+<div class="flex flex-wrap ">
+
+  <div class=" flex w-12 flex-wrap">
+    <div
+         class="flex w-12 md:w-6 lg:w-4 p-1 flex-column justify-content-end"
+         pTooltip="Campo obrigatório, inserir apenas letras e 50 caracteres no máximo para descrever o nome do item"
+         tooltipPosition="top"
+    >
+      <label for="nome">Nome item *</label>
+      <input
+           pInputText
+           maxlength="50"
+           id="nome"
+           [formControl]="formGroup.get('nomeInput')"
+           pKeyFilter="alpha"
+      />
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-4 p-1 flex-column justify-content-end"
+         pTooltip="Campo opcional para descrever o nome da marca ou fabricante do item"
+         tooltipPosition="top"
+    >
+      <label for="marca">Marca</label>
+      <input
+           pInputText
+           id="marca"
+           [formControl]="formGroup.get('marcaInput')"
+      />
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-4 p-1 flex-column justify-content-end"
+         pTooltip="Selecione o tipo de grandeza á ser utilizada"
+         tooltipPosition="top"
+    >
+      <label for="select">Escala *</label>
+      <p-selectButton
+           [options]="items"
+           id="select"
+           optionLabel="label"
+           optionValue="value"
+           [formControl]="formGroup.get('escalaSelect')"
+           styleClass="flex ui-fluid"
+      ></p-selectButton>
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-3 p-1 flex-column justify-content-end"
+         pTooltip="Campo obrigatório, Defina a quantidade em estoque na sua respectiva grandeza"
+         tooltipPosition="top"
+    >
+      <label for="quantidadeInput">Quantidade</label>
+      <div class="ui-inputgroup">
+        <p-inputNumber
+             mode="decimal"
+             inputId="quantidadeInput"
+             [min]="0"
+             [minFractionDigits]="escalaSelect.value==='Un'?0:3"
+             class="w-12 reverte-span"
+             [showButtons]="true"
+             [formControl]="formGroup.get('quantidadeInput')"
+             styleClass="flex"
+        ></p-inputNumber>
+
+        <span class="ui-inputgroup-addon beauty-font-regular w-max addon">{{escalaSelect.value}}</span>
+      </div>
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-3 p-1 flex-column justify-content-end"
+         pTooltip="Campo obrigatório, defina o valor do item"
+         tooltipPosition="top"
+    >
+
+      <!-- @@TODO utilizando máscara (preenchimento da direita para esquerda). -->
+      <label for="valorInput">Valor *</label>
+      <p-inputNumber
+           mode="decimal"
+           [showButtons]="false"
+           inputId="valorInput"
+           mode="currency"
+           [min]="0"
+           currency="BRL"
+           [formControl]="formGroup.get('valorInput')"
+           styleClass="flex ui-fluid"
+      ></p-inputNumber>
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-3 p-1 flex-column justify-content-end"
+         pTooltip="Campo obrigatório, defina a data de fabricação do item"
+         tooltipPosition="top"
+    >
+
+      <!-- Data de fabricação Data Sim Data no formato pt-Br e não pode ser superior a data de validade (caso seja um produto
+  perecível) -->
+
+      <label for="fabricacaoCalendario">Data de fabricação *</label>
+      <p-calendar
+           id="fabricacaoCalendario"
+           [formControl]="formGroup.get('fabricacaoCalendario')"
+           [touchUI]="isMobile"
+           [style]="{'width':'100%'}"
+           [inputStyle]="{'width':'100%'}"
+           dateFormat="dd/mm/yy"
+           [maxDate]="formGroup.get('validadeCalendario').value"
+           [maxDate]="today"
+      ></p-calendar>
+
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-3 p-1 flex-column"
+         pTooltip="Campo obrigatório, defina se o item tem data de validade"
+         tooltipPosition="top"
+    >
+
+      <label for="perecivelCheck">Produto perecível/com data de validade? *</label>
+      <p-toggleButton
+           onLabel="Produto perecível"
+           offLabel="Produto não perecível"
+           id="perecivelCheck"
+           onIcon="pi pi-check"
+           [style]="{'width':'100%'}"
+           offIcon="pi pi-times"
+           [formControl]="formGroup.get('perecivelCheck')"
+      ></p-toggleButton>
+    </div>
+
+    <div
+         class="flex w-12 md:w-6 lg:w-3 p-1  flex-column"
+         *ngIf="formGroup.controls['perecivelCheck'].value"
+         pTooltip="Campo opcional, defina a data de validade"
+         tooltipPosition="top"
+    >
+      <!-- Data de validade Data Só é obrigatório caso o produto seja perecível Data no formato pt-Br. Caso a data de validade seja
+          inferior a data atual deve informar que o produto encontra-se vencido. -->
+
+      <label for="validadeCalendario">Data de vencimento</label>
+      <p-calendar
+           id="validadeCalendario"
+           [formControl]="formGroup.get('validadeCalendario')"
+           [style]="{'width':'100%'}"
+           [inputStyle]="{'width':'100%'}"
+           [touchUI]="isMobile"
+           dateFormat="dd/mm/yy"
+      ></p-calendar>
+    </div>
+
+  </div>
+
+  <!-- <div class="flex w-12 lg:w-4 xl:w-3 justify-content-center">
+
+      <div class="grid">
+        <p-card
+             header="Advanced Card"
+             subheader="Card Subheader"
+             [style]="{ width: '360px' }"
+        >
+          <ng-template pTemplate="header">
+            <img
+                 alt="Card"
+                 src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"
+            />
+          </ng-template>
+          <p>
+            Lorem ipsum dolor sit amet...
+          </p>
+          <ng-template pTemplate="footer">
+            <div class="flex gap-3 mt-1">
+              <p-button
+                   label="comprar"
+                   severity="primary"
+                   class="w-full"
+                   styleClass="w-full"
+              ></p-button>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div> -->
+
+  <div class="flex flex-row w-12 align-content-center flex-wrap justify-content-end mt-2">
+    <!--
+  O formulário deverá possuir dois botões, um para salvar e outro para cancelar. Ao selecionar o botão de salvar, caso
+  esteja editando um item, deve salvar essas alterações, do contrário um novo será adicionado. O botão de cancelar
+  direciona o usuário para a tela de listagem.
+   -->
+
+    <p-button
+         label="Cancelar"
+         severity="secondary"
+         class="w-full lg:w-6 p-1"
+         styleClass="w-full"
+         routerLink="/listagem"
+    ></p-button>
+    <p-button
+         label="Salvar"
+         type="submit"
+         (click)="enviar()"
+         class="w-full lg:w-6 p-1"
+         styleClass="w-full"
+    ></p-button>
+  </div>
+</div>

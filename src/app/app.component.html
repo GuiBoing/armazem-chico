@@ -1,19 +1,51 @@
-
-<header>
-  <p-button icon="pi pi-list"></p-button>
-  <img
-       src="https://picsum.photos/id/292/70/70"
-       alt=""
+<nav id="sidenav">
+  <div
+       class="flex flex-column links"
+       (click)="this.toggleNav()"
   >
-</header>
-<nav>
-  <p-menu [model]="items"></p-menu>
+
+    <button
+         pButton
+         type="button"
+         class=" ui-button-warning ui-button-raised ui-button-rounded"
+         routerLink="home"
+    >Home</button>
+    <button
+         pButton
+         type="button"
+         class=" ui-button-warning ui-button-raised ui-button-rounded"
+         routerLink="listagem"
+    >Listagem</button>
+    <button
+         pButton
+         type="button"
+         class=" ui-button-warning ui-button-raised ui-button-rounded"
+         routerLink="formulario"
+    >Formulario</button>
+    <button
+         pButton
+         type="button"
+         class=" ui-button-warning ui-button-raised ui-button-rounded"
+         routerLink="info"
+    >Info</button>
+  </div>
 </nav>
 
 
+<div id="inside">
+  <header>
+    <p-button
+         icon="{{!isNavOpen?'pi pi-list':'pi pi-times'}}"
+         (click)="toggleNav();"
+    ></p-button>
+    <img
+         routerLink="home"
+         src="https://picsum.photos/id/292/70/70"
+         alt=""
+    >
+  </header>
 
-<main>
-  <!-- <p-breadcrumb [model]="breads" [home]="home"></p-breadcrumb> -->
-  <router-outlet></router-outlet>
-
-</main>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

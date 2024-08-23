@@ -1,0 +1,20 @@
+::ng-deep.ui-inputnumber {
+  width: 100%;
+}
+
+
+.addon,
+.quantidadeInput {
+  height: 30px;
+}
+
+.reverte-span {
+  span {
+    display: flex;
+    flex-direction: row-reverse;
+
+    input {
+      width: 100%;
+    }
+  }
+}
