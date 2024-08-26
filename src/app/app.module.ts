@@ -5,22 +5,22 @@ import { AppComponent } from './app.component';
 import { ListagemComponent } from './listagem/listagem.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { HomeComponent } from './home/home.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PrimeNgListModule } from './prime-ng-list.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { InfoComponent } from './info/info.component';
 
-
-
-
-
+registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent,
     ListagemComponent,
     FormularioComponent,
     HomeComponent,
-    PageNotFoundComponent
+    InfoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +31,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }

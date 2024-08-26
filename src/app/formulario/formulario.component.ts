@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as uuid from 'uuid';
+import { ActivatedRoute, Navigation } from '@angular/router';
 
 @Component({
   selector: 'app-formulario',
@@ -9,12 +9,16 @@ import * as uuid from 'uuid';
 })
 export class FormularioComponent implements OnInit {
 
-  constructor () { }
+  constructor (
+    private activatedRoute: ActivatedRoute
+  ) { }
   items;
   today = new Date();
   msgs = [];
   isValidadeVencida: boolean = false;
+  editCodigo: number;
   formGroup = new FormGroup({
+    codigo: new FormControl(),
     nome: new FormControl('', [Validators.required, Validators.max(50)]),
     marca: new FormControl(''),
     escala: new FormControl({ label: 'Litro', value: 'Lt' }, Validators.required),
@@ -27,6 +31,23 @@ export class FormularioComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(routeParams => {
+      if (routeParams && routeParams.codigo) {
+        this.editCodigo = routeParams.codigo;
+        let arrayDB = JSON.parse(localStorage.getItem('db_itens')) || [];
+        let loadedData = arrayDB.find(item => item.codigo == routeParams.codigo);
+        // PATCHVALUE N DEU CERTO this.formGroup.patchValue(this.removeEmpty(loadedData));
+        Object.keys(this.formGroup.controls).forEach((element) => {
+          let value = loadedData[element];
+          if (element.startsWith('dt_')) {
+            value = new Date(value);
+          }
+          if (loadedData[element] !== null) {
+            this.formGroup.get(element).setValue(value);
+          }
+        });
+      }
+    });
     this.items = [
       { label: 'Litro', value: 'Lt' },
       { label: 'Quilograma', value: 'Kg' },
@@ -66,18 +87,40 @@ export class FormularioComponent implements OnInit {
     this.formGroup.markAllAsTouched();
     this.formGroup.markAsDirty();
     if (this.formGroup.valid && !this.isValidadeVencida) {
-      this.msgs.push({ severity: 'sucess', summary: 'Sucesso!', detail: 'item registrado com sucesso' });
-      let data = this.formGroup.getRawValue();
       let arrayDB = JSON.parse(localStorage.getItem('db_itens')) || [];
-      data.codigo = arrayDB.length + 1;
-      arrayDB.push(data);
+      this.formGroup.get('codigo').setValue(arrayDB.length + 1);
+      let data = this.formGroup.getRawValue();
+      if (this.editCodigo) {
+        data.codigo = this.editCodigo;
+        arrayDB[arrayDB.findIndex(item => item.codigo == this.editCodigo)] = data;
+      } else {
+        arrayDB.push(data);
+      }
       let stringToSave = JSON.stringify(arrayDB);
       localStorage.setItem('db_itens', stringToSave);
-      this.formGroup.reset();
+      this.msgs.push({ severity: 'success', summary: 'Sucesso!', detail: `item ${this.editCodigo?'editado':'registrado'} com sucesso` });
+      this.formGroup.reset(
+        {
+          nome: '',
+          marca: '',
+          escala: { label: 'Litro', value: 'Lt' },
+          quantidade: 0,
+          valor: 0,
+          dt_fabricacao: new Date(),
+          isPerecivel: false,
+          dt_validade: null,
+        }
+      );
     } else {
       this.msgs.push({ severity: 'warn', summary: 'Formulario com erro', detail: 'verifique os campos com erro' });
-
     }
+  }
+
+
+  removeEmpty(obj) {
+    return Object.entries(obj)
+      .filter(([_, v]) => v != null)
+      .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
   }
 
 }

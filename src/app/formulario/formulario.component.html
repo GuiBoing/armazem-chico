@@ -1,4 +1,5 @@
-<h2 class="beauty-font-regular">Cadastro de item</h2>
+<h2 class="beauty-font-regular">{{editCodigo?'Edição':'Cadastro'}} de item</h2>
+<p-messages [(value)]="msgs"></p-messages>
 
 <div class="flex flex-wrap ">
 
@@ -105,7 +106,6 @@
            [style]="{'width':'100%'}"
            [inputStyle]="{'width':'100%'}"
            dateFormat="dd/mm/yy"
-           [maxDate]="formGroup.get('dt_validade').value"
       ></p-calendar>
 
     </div>
@@ -179,7 +179,8 @@
       </div>
     </div> -->
 
-  <div class="flex flex-row w-12 align-content-center flex-wrap justify-content-end lg:justify-content-between mt-2 gap-2">
+  <div
+       class="flex flex-row w-12 align-content-center flex-wrap justify-content-end lg:justify-content-between mt-2 gap-2">
     <!--
   O formulário deverá possuir dois botões, um para salvar e outro para cancelar. Ao selecionar o botão de salvar, caso
   esteja editando um item, deve salvar essas alterações, do contrário um novo será adicionado. O botão de cancelar

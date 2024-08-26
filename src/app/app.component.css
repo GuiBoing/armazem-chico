@@ -18,6 +18,10 @@ header {
     height: 6vh;
   }
 
+  h1{
+    font-size: 16px;
+  }
+
 }
 
 nav {
@@ -33,17 +37,21 @@ nav {
   .links{
     margin: 12px;
     gap: 16px;
-    a{
+    button{
       padding: 4px;
       background-color: var(--body-bg);
       border: 1px solid #d4ab5e;
       color: black;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
     }
   }
 }
 
 main {
   background-color: var(--body-bg);
-  padding: 1.2rem;
+  padding: 0.8vw;
   height: calc(100vh - var(--header-height));
 }
